@@ -39,6 +39,7 @@ def random_play_single_ghost(problem):
             if problem.game_map[problem.loc_map['P'][0]][problem.loc_map['P'][1]] == '.':
                 problem.dot_count -= 1
                 score+=10
+                problem.dots.remove((problem.loc_map['P'][0], problem.loc_map['P'][1]))
             if problem.game_map[problem.loc_map['P'][0]][problem.loc_map['P'][1]] == 'W':
                 problem.game_map[problem.loc_map['P'][0]][problem.loc_map['P'][1]-1] = ' '
                 problem.loc_map.pop('P')
@@ -54,6 +55,8 @@ def random_play_single_ghost(problem):
             if problem.game_map[problem.loc_map['P'][0]][problem.loc_map['P'][1]] == '.':
                 problem.dot_count -= 1
                 score+=10
+                problem.dots.remove((problem.loc_map['P'][0], problem.loc_map['P'][1]))
+                
             if problem.game_map[problem.loc_map['P'][0]][problem.loc_map['P'][1]] == 'W':
                 problem.game_map[problem.loc_map['P'][0]+1][problem.loc_map['P'][1]] = ' '
                 problem.loc_map.pop('P')
@@ -69,6 +72,8 @@ def random_play_single_ghost(problem):
             if problem.game_map[problem.loc_map['P'][0]][problem.loc_map['P'][1]] == '.':
                 problem.dot_count -= 1
                 score+=10
+                problem.dots.remove((problem.loc_map['P'][0], problem.loc_map['P'][1]))
+                
             if problem.game_map[problem.loc_map['P'][0]][problem.loc_map['P'][1]] == 'W':
                 problem.game_map[problem.loc_map['P'][0]-1][problem.loc_map['P'][1]] = ' '
                 problem.loc_map.pop('P')
@@ -84,6 +89,8 @@ def random_play_single_ghost(problem):
             if problem.game_map[problem.loc_map['P'][0]][problem.loc_map['P'][1]] == '.':
                 problem.dot_count -= 1
                 score+=10
+                problem.dots.remove((problem.loc_map['P'][0], problem.loc_map['P'][1]))
+                
             if problem.game_map[problem.loc_map['P'][0]][problem.loc_map['P'][1]] == 'W':
                 problem.game_map[problem.loc_map['P'][0]][problem.loc_map['P'][1]+1] = ' '
                 problem.loc_map.pop('P')
@@ -115,20 +122,32 @@ def random_play_single_ghost(problem):
         solution += f"{step_counter}: W moving {action}\n"
         if action == 'E':
             problem.loc_map['W'] = (problem.loc_map['W'][0], problem.loc_map['W'][1]+1)
-            problem.game_map[problem.loc_map['W'][0]][problem.loc_map['W'][1]] = 'W'
-            problem.game_map[problem.loc_map['W'][0]][problem.loc_map['W'][1]-1] = ' '
+            problem.game_map[problem.loc_map['W'][0]][problem.loc_map['W'][1]-1] = 'W'
+            if (problem.loc_map['W'][0], problem.loc_map['W'][1]-1) in problem.dots:
+                problem.game_map[problem.loc_map['W'][0]][problem.loc_map['W'][1]-1] = '.'
+            else:
+                problem.game_map[problem.loc_map['W'][0]][problem.loc_map['W'][1]-1] = ' '
         elif action == 'N':
             problem.loc_map['W'] = (problem.loc_map['W'][0]-1, problem.loc_map['W'][1])
             problem.game_map[problem.loc_map['W'][0]][problem.loc_map['W'][1]] = 'W'
-            problem.game_map[problem.loc_map['W'][0]+1][problem.loc_map['W'][1]] = ' '
+            if (problem.loc_map['W'][0]+1, problem.loc_map['W'][1]) in problem.dots:
+                problem.game_map[problem.loc_map['W'][0]+1][problem.loc_map['W'][1]] = '.'
+            else:
+                problem.game_map[problem.loc_map['W'][0]+1][problem.loc_map['W'][1]] = ' '
         elif action == 'S':
             problem.loc_map['W'] = (problem.loc_map['W'][0]+1, problem.loc_map['W'][1])
             problem.game_map[problem.loc_map['W'][0]][problem.loc_map['W'][1]] = 'W'
-            problem.game_map[problem.loc_map['W'][0]-1][problem.loc_map['W'][1]] = ' '
+            if (problem.loc_map['W'][0]-1, problem.loc_map['W'][1]) in problem.dots:
+                problem.game_map[problem.loc_map['W'][0]-1][problem.loc_map['W'][1]] = '.'
+            else:
+                problem.game_map[problem.loc_map['W'][0]-1][problem.loc_map['W'][1]] = ' '
         elif action == 'W':
             problem.loc_map['W'] = (problem.loc_map['W'][0], problem.loc_map['W'][1]-1)
             problem.game_map[problem.loc_map['W'][0]][problem.loc_map['W'][1]] = 'W'
-            problem.game_map[problem.loc_map['W'][0]][problem.loc_map['W'][1]+1] = ' '
+            if (problem.loc_map['W'][0], problem.loc_map['W'][1]+1) in problem.dots:
+                problem.game_map[problem.loc_map['W'][0]][problem.loc_map['W'][1]+1] = '.'
+            else:
+                problem.game_map[problem.loc_map['W'][0]][problem.loc_map['W'][1]+1] = ' '
         
         if problem.loc_map['P'] == problem.loc_map['W']:
             problem.loc_map.pop('P')
