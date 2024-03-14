@@ -1,7 +1,7 @@
-import sys, random, grader, parse
+import sys, random, grader, parse, copy
 
 def to_string(problem):
-    current_map = problem.game_map
+    current_map = copy.deepcopy(problem.game_map)
     for key in problem.loc_map:
         x, y = problem.loc_map[key]
         current_map[x][y] = key

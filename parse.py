@@ -7,6 +7,7 @@ class Problem:
         self.loc_map = loc_map
         self.dot_count = dot_count
         self.dots = dots
+        self.score = 0
 
 def read_layout_problem(file_path):
     #Your p1 code here
